@@ -35,6 +35,7 @@ gem 'gecko-ruby'
 gem 'omniauth-tradegecko'
 gem 'rack-timeout'
 gem 'pry'
+gem 'access_token_wrapper', github: 'tradegecko/access_token_wrapper'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

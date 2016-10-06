@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/tradegecko/access_token_wrapper.git
+  revision: e3f5395d591c9109845737e98af18b30102c9f27
+  specs:
+    access_token_wrapper (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -209,6 +215,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  access_token_wrapper!
   byebug
   coffee-rails (~> 4.2)
   gecko-ruby
