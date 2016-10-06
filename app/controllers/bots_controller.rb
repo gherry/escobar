@@ -72,7 +72,8 @@ class BotsController < ActionController::Base
     if products.present?
       product_ids = products.map(&:id)
       variants = current_client.Variant.where(product_id: product_ids)
-      render json: ProductsCardSerializer.new(products, variants).to_json
+      images   = current_client.Image.where(variant_id: variants.map(&:id))
+      render json: ProductsCardSerializer.new(products, variants, images).to_json
     else
       render json: {}
     end
