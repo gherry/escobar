@@ -14,7 +14,6 @@ private
     token = OAuth2::AccessToken.new(self.class.oauth_client, account.access_token, {
       refresh_token: account.refresh_token,
       expires_at:    account.expires_at,
-
     })
 
     AccessTokenWrapper::Base.new(token) do |new_token, ex|

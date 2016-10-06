@@ -34,6 +34,9 @@ gem 'omniauth-tradegecko'
 gem 'rack-timeout'
 gem 'pry'
 gem 'access_token_wrapper', github: 'tradegecko/access_token_wrapper'
+gem 'bond'
+gem 'pry-rails'
+gem 'hirb',      require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,4 +1,6 @@
 class Account < ApplicationRecord
+  has_many :chatters
+
   before_create :set_defaults
 
   def self.find_or_create_from_omniauth(auth)
