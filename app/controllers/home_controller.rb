@@ -4,5 +4,6 @@ class HomeController < ApplicationController
 
   def index
     @account = @client.Account.current
+    @product_size = @client.Product.size
   end
 end
