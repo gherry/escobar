@@ -1,6 +1,7 @@
 class BotsController < ActionController::Base
   require 'oauth_session'
   require 'orders_card_serializer'
+  require 'products_card_serializer'
 
   def email
     current_chatter.unconfirmed_email = params[:reply]
@@ -60,6 +61,19 @@ class BotsController < ActionController::Base
       order_ids = fulfillments.map(&:order_id)
       orders = current_client.Order.where(ids: order_ids)
       render json: OrdersCardSerializer.new(orders, fulfillments).to_json
+    else
+      render json: {}
+    end
+  end
+
+  def product_search
+    products = current_client.Product.where(q: params[:reply])
+
+    if products.present?
+      product_ids = products.map(&:id)
+      variants = current_client.Variant.where(product_id: product_ids)
+      puts "Variants are #{variants.count}"
+      render json: ProductsCardSerializer.new(products, variants).to_json
     else
       render json: {}
     end

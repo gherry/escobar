@@ -10,5 +10,6 @@ Rails.application.routes.draw do
     post :orders
     post :fulfillment_search
     post :tracking_url_search
+    post :product_search
   end
 end
