@@ -3,9 +3,6 @@ class BotsController < ActionController::Base
   require 'orders_card_serializer'
 
   def email
-    puts current_chatter.id
-    puts "Adding unconfirmed: #{current_chatter.unconfirmed_email}"
-
     current_chatter.unconfirmed_email = params[:reply]
     current_chatter.save
 
@@ -14,8 +11,8 @@ class BotsController < ActionController::Base
 
   def email_confirm
     if current_chatter.unconfirmed_email.present? && params[:reply].try(:downcase) == "yes"
-      puts current_chatter.id
-      puts "Confirming: #{current_chatter.unconfirmed_email}"
+      tradegecko_company = current_client.Company.where(email: current_chatter.unconfirmed_email).first
+      current_chatter.tradegecko_company_id = tradegecko_company.try(:id)
       current_chatter.email = current_chatter.unconfirmed_email
       current_chatter.save
     end
@@ -23,39 +20,49 @@ class BotsController < ActionController::Base
     render json: {email: current_chatter.email}
   end
 
+  def orders
+    if current_chatter.email.present?
+      orders = current_client.Order.where(company_id: current_chatter.tradegecko_company_id)
+      fulfillments = current_client.Fulfillment.where(order_ids: orders.map(&:id))
+      render json: OrdersCardSerializer.new(orders, fulfillments).to_json
+    else
+      render json: {}
+    end
+  end
+
   def order_search
-    puts "Calling order search! #{params[:reply]}"
     orders = current_client.Order.where(q: params[:reply])
 
     if orders.present?
-      render json: OrdersCardSerializer.new(orders).to_json
+      fulfillments = current_client.Fulfillment.where(order_ids: orders.map(&:id))
+      render json: OrdersCardSerializer.new(orders, fulfillments).to_json
     else
       render json: {}
     end
   end
 
   def fulfillment_search
-    fulfillment = current_client.Fulfillment.where(q: params[:reply]).first
+    fulfillments = current_client.Fulfillment.where(q: params[:reply])
 
-    if fulfillment
-      render json: fulfillment.to_h
+    if fulfillments.present?
+      order_ids = fulfillments.map(&:order_id)
+      orders = current_client.Order.where(ids: order_ids)
+      render json: OrdersCardSerializer.new(orders, fulfillments).to_json
     else
       render json: {}
     end
   end
 
   def tracking_url_search
-    fulfillment = current_client.Fulfillment.where(tracking_url: params[:reply]).first
+    fulfillments = current_client.Fulfillment.where(tracking_url: params[:reply])
 
-    if fulfillment
-      render json: fulfillment.to_h
+    if fulfillments.present?
+      order_ids = fulfillments.map(&:order_id)
+      orders = current_client.Order.where(ids: order_ids)
+      render json: OrdersCardSerializer.new(orders, fulfillments).to_json
     else
       render json: {}
     end
-  end
-
-  def orders
-    render json: {a: 1, b: params[:bot_id], c: params[:from], tradegecko_id: current_account.tradegecko_id}
   end
 
 private

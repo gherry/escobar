@@ -1,6 +1,7 @@
 class OrdersCardSerializer
-  def initialize(orders)
-    @orders = orders
+  def initialize(orders, fulfillments=[])
+    @orders       = orders
+    @fulfillments = fulfillments || []
   end
 
   def to_json
@@ -15,7 +16,7 @@ class OrdersCardSerializer
       cardSubtitle: card_subtitle(order),
       cardImage:    random_image,
       cardLink:     order.document_url,
-      buttons:      [view_order_button(order), pay_button(order)].compact
+      buttons:      [view_order_button(order), pay_button(order), tracking_url_button(order)].compact
     }
   end
 
@@ -25,7 +26,7 @@ class OrdersCardSerializer
 
   def card_subtitle(order)
     if order.fulfillment_status.to_sym == :shipped
-      "Shipped at: #{order.shipped_at}"
+      "Shipped at: #{order.ship_at}"
     else
       "Not shipped yet"
     end
@@ -56,5 +57,20 @@ class OrdersCardSerializer
         target:     order.document_url
       }
     end
+  end
+
+  def tracking_url_button(order)
+    fulfillment = find_fulfillment(order)
+    if fulfillment && fulfillment.tracking_url.present?
+      {
+        buttonText: "Tracking URL",
+        buttonType: "url",
+        target:     fulfillment.tracking_url
+      }
+    end
+  end
+
+  def find_fulfillment(order)
+    @fulfillments.detect { |fulfillment| fulfillment.order_id.try(:to_i) == order.id.try(:to_i) }
   end
 end
