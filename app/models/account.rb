@@ -1,4 +1,6 @@
 class Account < ApplicationRecord
+  before_create :set_defaults
+
   def self.find_or_create_from_omniauth(auth)
     params = auth[:extra][:raw_info]
     account = self.find_or_initialize_by(tradegecko_id: params[:account_id])
@@ -12,5 +14,9 @@ class Account < ApplicationRecord
     self.expires_at    = access_token.expires_at
     account_hash       = access_token.get('/accounts/current').parsed['account'].symbolize_keys
     self.save
+  end
+
+  def set_defaults
+    self.salt ||= SecureRandom.hex
   end
 end
