@@ -26,7 +26,7 @@ class ProductsCardSerializer
     {
       buttonText: "Buy #{variant.name} ($#{variant.retail_price})",
       buttonType: "module",
-      target:     "137660"
+      target:     137660
     }
   end
 
