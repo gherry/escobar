@@ -57,6 +57,6 @@ class ProductsCardSerializer
   end
 
   def image_url(image)
-    image.base_path + "/medium_" + image.file_name
+    image.base_path + "/" + image.file_name
   end
 end
