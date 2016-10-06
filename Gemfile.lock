@@ -4,6 +4,16 @@ GIT
   specs:
     access_token_wrapper (0.0.1)
 
+GIT
+  remote: git://github.com/tradegecko/gecko.git
+  revision: 22928decc9232f0642151579d37f15db161cffe2
+  branch: hackathon
+  specs:
+    gecko-ruby (0.2.2)
+      activesupport
+      oauth2
+      virtus
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -72,10 +82,6 @@ GEM
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.14)
-    gecko-ruby (0.2.2)
-      activesupport
-      oauth2
-      virtus
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     hashie (3.4.6)
@@ -222,7 +228,7 @@ DEPENDENCIES
   bond
   byebug
   coffee-rails (~> 4.2)
-  gecko-ruby
+  gecko-ruby!
   hirb
   jbuilder (~> 2.5)
   jquery-rails

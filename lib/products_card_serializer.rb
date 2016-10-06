@@ -18,7 +18,7 @@ class ProductsCardSerializer
       cardSubtitle: product.description,
       cardImage:    "http://efdreams.com/data_images/dreams/vodka/vodka-07.jpg",
       cardLink:     "https://go.tradegecko.com",
-      buttons:      chosen_variants.map { |v| variant_button(product, v) }
+      buttons:      chosen_variants.map { |v| variant_button(product, v) } + [browse_more_button]
     }
   end
 
@@ -26,7 +26,15 @@ class ProductsCardSerializer
     {
       buttonText: "Buy #{variant.name} ($#{variant.retail_price})",
       buttonType: "module",
-      target:     137660
+      target:     "Order #{product.name} #{variant.name} | #{variant.id}"
+    }
+  end
+
+  def browse_more_button
+    {
+      buttonText: "Browse more",
+      buttonType: "module",
+      target:     "Browse more"
     }
   end
 

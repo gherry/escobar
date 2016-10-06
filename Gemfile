@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'pg'
-gem 'gecko-ruby'
+gem 'gecko-ruby', github: 'tradegecko/gecko', branch: :hackathon
 gem 'omniauth-tradegecko'
 gem 'rack-timeout'
 gem 'pry'
