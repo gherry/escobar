@@ -14,7 +14,7 @@ class OrdersCardSerializer
     {
       cardTitle:    card_title(order),
       cardSubtitle: card_subtitle(order),
-      cardImage:    "https://d3h6ue1fvxa32i.cloudfront.net/assets/avatar-order-big-6e9e5789f149e38b6a7c94421e6b89187e4e9f5ed3ccf39877e9858d4320934e.png",
+      cardImage:    "https://s3-ap-southeast-1.amazonaws.com/tradegecko-dev-buckets/SO-thumb.png",
       cardLink:     order.document_url,
       buttons:      [view_order_button(order), pay_button(order), tracking_url_button(order)].compact
     }
